@@ -2,44 +2,50 @@
   <v-navigation-drawer
     id="app-drawer"
     :mini-variant.sync="mini"
+    mini-variant-width="60"
     v-model="inputValue"
     :src="image"
     app
-    color="go_primary"
+    color="deep-orange darken-3"
     dark
     floating
     mobile-break-point="991"
     persistent
     permanent
-    width="260"
+    :width="drawerWidth"
   >
     <template v-slot:img="attrs">
       <v-img v-bind="attrs" gradient="to top, rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)"/>
     </template>
 
     <v-list-item two-line>
-      <v-list-item-avatar color="white">
+      <!-- <v-list-item-avatar color="white">
         <v-img
           src="http://weixin.campusplus.com/uploads/images/tqeditor/8ce70cb2-5ab7-4102-a32c-392b9829c668.jpg"
           height="34"
           contain
         />
-      </v-list-item-avatar>
+      </v-list-item-avatar> -->
+      <v-list-item-action @click.stop="openDrawer()">
+        <v-icon>mdi-account</v-icon>
+      </v-list-item-action>
 
-      <v-list-item-title class="title">提案系统</v-list-item-title>
+      <v-list-item-title class="title">Juntai Z</v-list-item-title>
 
-      <v-btn icon @click.stop="mini = !mini">
+      <v-btn icon @click.stop="closeDrawer()">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
     </v-list-item>
 
     <v-divider class="mx-3 mb-3"/>
 
-    <v-list nav>
+    <v-list flat>
       <!-- Bug in Vuetify for first child of v-list not receiving proper border-radius -->
       <div/>
 
-      <v-list-item v-for="(link, i) in links" :key="i" :to="link.to" active-class="primary white--text">
+      <v-list-item v-for="(link, i) in links" :key="i" :to="link.to"
+        active-class="deep-orange white--text"
+      >
         <v-list-item-action>
           <v-icon>{{ link.icon }}</v-icon>
         </v-list-item-action>
@@ -62,6 +68,7 @@ export default {
     }
   },
   data: () => ({
+    drawerWidth: 280,
     mini: false,
     links: [
       {
@@ -122,6 +129,12 @@ export default {
   },
 
   methods: {
+    openDrawer() {
+      this.drawerWidth = 280
+    },
+    closeDrawer() {
+      this.drawerWidth = 60
+    },
     onResponsiveInverted() {
       if (window.innerWidth < 991) {
         this.mini = true;
