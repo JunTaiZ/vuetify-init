@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-
+import 'font-awesome/css/font-awesome.min.css'
 Vue.use(Vuetify);
 
 export default new Vuetify({
@@ -10,16 +10,13 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        el_primary: "#409EFF",
-        el_success: "#67C23A",
-        el_warning: "#E6A23C",
-        el_danger: "#F56C6C",
-        el_info: "#909399",
-        go_primary: "#4285f4",
-        go_success: "#34a853",
-        go_warning: "#fbbc05",
-        go_danger: "#ea4335",
-        go_info: "#7c868d",
+        primary: '#ff5722',
+        secondary: '#ffeb3b',
+        accent: '#e91e63',
+        error: '#D32F2F',
+        warning: '#ffc107',
+        info: '#00bcd4',
+        success: '#8bc34a',
       }
     }
   }

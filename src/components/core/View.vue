@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "CoreView",
@@ -32,13 +32,11 @@ export default {
     //
   }),
   methods: {
+    ...mapActions(["getUserInfo"]),
     ...mapMutations(["hideNotice"])
   },
-
-  metaInfo() {
-    return {
-      title: "Dashboard"
-    };
-  }
+  mounted() {
+    // this.getUserInfo()
+  },
 };
 </script>

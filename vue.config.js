@@ -3,6 +3,6 @@ module.exports = {
     "vuetify"
   ],
   "devServer": {
-    "port": "7000"
+    "port": "8088"
   }
 }

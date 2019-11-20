@@ -31,8 +31,8 @@
           </v-card>
         </v-menu>
 
-        <v-btn to="/user-profile" icon>
-          <v-icon color="tertiary">mdi-account</v-icon>
+        <v-btn @click.stop="logout" icon>
+          <v-icon color="tertiary">mdi-logout</v-icon>
         </v-btn>
       </v-row>
     </v-toolbar-items>
@@ -73,6 +73,16 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['deleteToken']),
+    logout() {
+      this.deleteToken()
+      this.$notify({
+        type: 'success',
+        group: 'notify',
+        text: '已退出登陆',
+      })
+      setTimeout(() => this.$router.push('/login'), 200)
+    },
     onResponsiveInverted() {
       if (window.innerWidth < 991) {
         this.responsive = true;

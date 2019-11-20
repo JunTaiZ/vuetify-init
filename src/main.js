@@ -7,22 +7,31 @@ import axios from "axios"
 import qs from "qs"
 import Public from './plugins/public'
 import Service from './plugins/service'
+import Notifications from 'vue-notification'
+import velocity      from 'velocity-animate'
+import './assets/css/index.css'
+
+import { longStackSupport } from 'q';
 
 Vue.config.productionTip = false
 Vue.use(router)
 
+Vue.use(Notifications, { velocity })
+
 Vue.prototype.$ajax = axios
 Vue.prototype.Public = Public
-Vue.prototype.Server = Service
+Vue.prototype.Service = Service
 
 axios.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded"
 axios.interceptors.request.use(
   function (config) {
+    config.baseURL = "http://localhost:3300"
     const token = localStorage.getItem("token")
     // console.log("token:",token)
     if (token)
       config.headers.common["Authorization"] = "Bearer " + token
+    // config.params = config.data
     config.data = qs.stringify(config.data)
     console.log("config.data:", config.data)
     return config
@@ -33,38 +42,19 @@ axios.interceptors.request.use(
 )
 axios.interceptors.response.use(
   function (res) {
-    console.log(res)
-    if (res.data.code != "200") {
-      switch (res.data.ret) {
-        case "10":
-          store.commit("clearUserInfo")
-          router.push({
-            path: "/login",
-            querry: { redirect: router.currentRoute.fullPath } //从哪个页面跳转
-          })
-          break
-        case "18":
-          //"无权限"
-          break
-        default:
-          break
-      }
-      Public.Notice(res.data.msg, "warning")
+    if (res.status === 200) {
+      return res.data
     }
-    else {
-      if (res.data.data.token) {
-        console.log("updateToken", res.data.data.token);
-        store.commit("updateToken", res.data.data.token);
-      }
-      if (res.data.data.user) {
-        console.log("updateUserInfo", res.data.data.user);
-        store.commit("updateUserInfo", res.data.data.user);
-      }
-    }
-    return res
+    Vue.notify({
+      type: 'warn',
+      title: '服务器出错'
+    })
   },
   function (res) {
-    Public.Notice("服务请求失败", "error")
+    Vue.notify({
+      type: 'error',
+      title: '服务器出错'
+    })
     console.error(res);
 
   }
@@ -83,16 +73,20 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.meta.requireLogin) {
     // console.log("login localStorage:", localStorage.getItem("token"))
-    if (localStorage.getItem("token")) {
-      console.log(store.state.token);
+    let LSToken = localStorage.getItem('token')
+    if (LSToken && LSToken !== null && LSToken !== undefined) {
+      let dis = store.dispatch('getUserInfo')
+      // dis.then(val => console.log(val)).catch(err => console.log(err))
+      store.commit('updateToken', localStorage.getItem('token'))
+      // console.log(store.state.token);
       next()
     } else {
       store.commit("clearUserInfo")
       next({
         path: "/login",
-        querry: { redirect: to.fullPath } //从哪个页面跳转
+        // querry: { redirect: to.fullPath } //从哪个页面跳转
       })
-      Public.Notice("请先登录", "warning")
+      Vue.notify('请先登陆')
     }
   } else {
     next()

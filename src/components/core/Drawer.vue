@@ -30,7 +30,7 @@
         <v-icon>mdi-account</v-icon>
       </v-list-item-action>
 
-      <v-list-item-title class="title">Juntai Z</v-list-item-title>
+      <v-list-item-title class="title">{{ UserEmail }}</v-list-item-title>
 
       <v-btn icon @click.stop="closeDrawer()">
         <v-icon>mdi-chevron-left</v-icon>
@@ -58,7 +58,7 @@
 
 <script>
 // Utilities
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   props: {
@@ -110,25 +110,24 @@ export default {
   }),
 
   computed: {
-    ...mapState("app", ["image", "color"]),
+    ...mapGetters(['UserEmail']),
+    ...mapState(["image", "color"]),
     inputValue: {
       get() {
         return "this.$store.state.app.drawer";
       },
       set(val) {
-        this.setDrawer(val);
+        // this.setDrawer(val);
       }
     }
   },
-  mounted() {
-    this.onResponsiveInverted();
-    // window.addEventListener("resize", this.onResponsiveInverted);
-  },
+  
   beforeDestroy() {
     window.removeEventListener("resize", this.onResponsiveInverted);
   },
 
   methods: {
+    ...mapActions(["getUserInfo"]),
     openDrawer() {
       this.drawerWidth = 280
     },
@@ -142,6 +141,11 @@ export default {
         this.mini = false;
       }
     }
-  }
+  },
+  mounted() {
+    // console.log(this.getUserInfo())
+    this.onResponsiveInverted();
+    // window.addEventListener("resize", this.onResponsiveInverted);
+  },
 };
 </script>

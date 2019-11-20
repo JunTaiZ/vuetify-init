@@ -1,0 +1,15 @@
+.theme--light.v-text-field--filled > .v-input__control > .v-input__slot:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.theme--light.v-text-field--filled > .v-input__control > .v-input__slot input {
+  text-align: center;
+  color: white;
+  caret-color: white;
+  font-size: 18px;
+}
+.theme--light.v-text-field--filled > .v-input__control > .v-input__slot {
+
+}
+.hover-box-shadow:hover {
+    box-shadow: 0 3px 10px #CC3712;
+}
