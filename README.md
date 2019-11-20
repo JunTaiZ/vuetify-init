@@ -3,9 +3,14 @@
 ## Project Describe
 > 后端数据库中用户的邮箱为唯一标识符
 > default account (email: admin@123.com, password: admin)
-
-- [x] login
-- [x] register
+- [x] login with email
+- [x] register with email
+- [x] get back password with email verification code
+- [x] vuetify
+- [x] vuex
+- [x] vue-router
+- [x] koa
+- [x] koa-jwt
 
 ## Project Dependent
 
